@@ -27,4 +27,33 @@ public class SecurityManagerShould {
         verify(console).print("Re-enter your password");
         verify(console).print("The passwords don't match");
     }
+
+    @Test
+    public void not_create_a_user_if_password_length_less_than_eight_characters() throws IOException {
+        SecurityManager.console = console;
+
+        when(console.readLine()).thenReturn("Rachel", "Rachel M.", "0123456", "0123456");
+        SecurityManager.createUser();
+
+        verify(console).print("Enter a username");
+        verify(console).print("Enter your full name");
+        verify(console).print("Enter your password");
+        verify(console).print("Re-enter your password");
+        verify(console).print("Password must be at least 8 characters in length");
+    }
+
+    @Test
+    public void create_a_user_if_passwords_match() throws IOException {
+        SecurityManager.console = console;
+
+        when(console.readLine()).thenReturn("Rachel", "Rachel M.", "0123456789", "0123456789");
+        SecurityManager.createUser();
+
+        verify(console).print("Enter a username");
+        verify(console).print("Enter your full name");
+        verify(console).print("Enter your password");
+        verify(console).print("Re-enter your password");
+        verify(console).print("Saving Details for User (Rachel, Rachel M., 9876543210)\n");
+    }
+
 }
