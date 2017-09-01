@@ -1,15 +1,11 @@
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class SecurityManager {
 
-    public static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     public static Console console = new Console();
 
     public static void createUser() {
-        BufferedReader buffer = bufferedReader;
 
         String username = null;
         String fullName = null;
@@ -17,13 +13,13 @@ public class SecurityManager {
         String confirmPassword = null;
         try {
             console.print("Enter a username");
-            username = buffer.readLine();
+            username = console.readLine();
             console.print("Enter your full name");
-            fullName = buffer.readLine();
+            fullName = console.readLine();
             console.print("Enter your password");
-            password = buffer.readLine();
+            password = console.readLine();
             console.print("Re-enter your password");
-            confirmPassword = buffer.readLine();
+            confirmPassword = console.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,10 +38,9 @@ public class SecurityManager {
         String encryptedPassword = new StringBuilder(password).reverse().toString();
 
         console.print(String.format(
-        "Saving Details for User (%s, %s, %s)\n",
-        username,
-        fullName,
-        encryptedPassword));
+                "Saving Details for User (%s, %s, %s)\n",
+                username,
+                fullName,
+                encryptedPassword));
     }
-
 }
