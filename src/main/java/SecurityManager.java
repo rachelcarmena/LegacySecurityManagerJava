@@ -1,4 +1,6 @@
 
+import infraestructure.Console;
+
 import java.io.IOException;
 
 public class SecurityManager {
