@@ -1,4 +1,4 @@
-package infraestructure;
+package infrastructure;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,49 +1,32 @@
+import domain.PasswordEncrypter;
+import domain.User;
+import domain.UserCreator;
+import infrastructure.Console;
+import infrastructure.RequestData;
+import infrastructure.UserRepository;
+import domain.PasswordChecker;
 
-import infraestructure.Console;
-
-import java.io.IOException;
+import java.util.Optional;
 
 public class SecurityManager {
 
     public static Console console = new Console();
 
     public static void createUser() {
-
-        String username = null;
-        String fullName = null;
-        String password = null;
-        String confirmPassword = null;
-        try {
-            username = requestFor("Enter a username");
-            fullName = requestFor("Enter your full name");
-            password = requestFor("Enter your password");
-            confirmPassword = requestFor("Re-enter your password");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (!password.equals(confirmPassword)) {
-            console.print("The passwords don't match");
+        Optional<RequestData> requestData = RequestData.with(console).execute();
+        if (!requestData.isPresent())
             return;
-        }
 
-        if (password.length() < 8) {
-            console.print("Password must be at least 8 characters in length");
+        String password = requestData.get().getPassword();
+        PasswordChecker passwordChecker = PasswordChecker.with(console);
+        if (!passwordChecker.isValid(password))
             return;
-        }
 
-        // Encrypt the password (just reverse it, should be secure)
-        String encryptedPassword = new StringBuilder(password).reverse().toString();
+        UserCreator userCreator = new UserCreator(new PasswordEncrypter());
+        User user = userCreator.createFrom(requestData.get());
 
-        console.print(String.format(
-                "Saving Details for User (%s, %s, %s)\n",
-                username,
-                fullName,
-                encryptedPassword));
+        UserRepository userRepository = new UserRepository(console);
+        userRepository.save(user);
     }
 
-    private static String requestFor(String message) throws IOException {
-        console.print(message);
-        return console.readLine();
-    }
 }
