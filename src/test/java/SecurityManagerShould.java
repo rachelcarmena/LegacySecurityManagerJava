@@ -6,7 +6,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
 
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -27,6 +29,8 @@ public class SecurityManagerShould {
         verify(console).print("Enter your password");
         verify(console).print("Re-enter your password");
         verify(console).print("The passwords don't match");
+        verify(console, times(4)).readLine();
+        verifyNoMoreInteractions(console);
     }
 
     @Test
@@ -40,7 +44,9 @@ public class SecurityManagerShould {
         verify(console).print("Enter your full name");
         verify(console).print("Enter your password");
         verify(console).print("Re-enter your password");
+        verify(console, times(4)).readLine();
         verify(console).print("Password must be at least 8 characters in length");
+        verifyNoMoreInteractions(console);
     }
 
     @Test
@@ -54,7 +60,9 @@ public class SecurityManagerShould {
         verify(console).print("Enter your full name");
         verify(console).print("Enter your password");
         verify(console).print("Re-enter your password");
+        verify(console, times(4)).readLine();
         verify(console).print("Saving Details for User (Rachel, Rachel M., 76543210)\n");
+        verifyNoMoreInteractions(console);
     }
 
     @Test
@@ -68,7 +76,9 @@ public class SecurityManagerShould {
         verify(console).print("Enter your full name");
         verify(console).print("Enter your password");
         verify(console).print("Re-enter your password");
+        verify(console, times(4)).readLine();
         verify(console).print("Saving Details for User (Rachel, Rachel M., 9876543210)\n");
+        verifyNoMoreInteractions(console);
     }
 
 }
