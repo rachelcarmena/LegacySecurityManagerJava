@@ -14,14 +14,10 @@ public class SecurityManager {
         String password = null;
         String confirmPassword = null;
         try {
-            console.print("Enter a username");
-            username = console.readLine();
-            console.print("Enter your full name");
-            fullName = console.readLine();
-            console.print("Enter your password");
-            password = console.readLine();
-            console.print("Re-enter your password");
-            confirmPassword = console.readLine();
+            username = requestFor("Enter a username");
+            fullName = requestFor("Enter your full name");
+            password = requestFor("Enter your password");
+            confirmPassword = requestFor("Re-enter your password");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,5 +40,10 @@ public class SecurityManager {
                 username,
                 fullName,
                 encryptedPassword));
+    }
+
+    private static String requestFor(String message) throws IOException {
+        console.print(message);
+        return console.readLine();
     }
 }
